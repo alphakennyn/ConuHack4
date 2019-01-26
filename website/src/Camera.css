@@ -3,8 +3,11 @@
   width: 100vw;
 }
 
+.react-html5-camera-photo {
+  position: fixed;
+}
 .captureButton {
   position: absolute;
   z-index: 10;
-  
+
 }
