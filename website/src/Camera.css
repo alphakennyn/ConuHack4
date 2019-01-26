@@ -1,13 +1,12 @@
 .app-container {
-  height: 100vh;
-  width: 100vw;
+  /* height: 100vh;
+  width: 100vw; */
 }
 
-.react-html5-camera-photo {
-  position: fixed;
+.react-html5-camera-photo>img, .react-html5-camera-photo>video {
+  width: 100%;
 }
-.captureButton {
-  position: absolute;
-  z-index: 10;
 
+#container-circles {
+  bottom: 20%;
 }
