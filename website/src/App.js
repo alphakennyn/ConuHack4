@@ -7,6 +7,7 @@ class App extends Component {
     return (
       <div className="App">
         <Camera/>
+        <h1>Help make the your city and the world more sustainable and green #hashish</h1>
       </div>
     );
   }

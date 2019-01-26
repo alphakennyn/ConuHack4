@@ -1,6 +1,7 @@
 .app-container {
   height: 100vh;
   width: 100vw;
+  background-image: linear-gradient(-45deg, green, #54b948);
 }
 
 .react-html5-camera-photo {
