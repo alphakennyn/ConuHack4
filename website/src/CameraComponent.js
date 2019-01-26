@@ -4,33 +4,53 @@ import axios from 'axios';
 import 'react-html5-camera-photo/build/css/index.css';
 import './Camera.css';
 import url from './configs/url.json';
+import SweetAlert from 'sweetalert2-react';
+
 
 class ClCamera extends Component {
   constructor() {
     super();
     this.webcam = null;
     this.state = {
-      capturedImage: null,
-      captured: false,
-      uploading: false
+      showCamera: false,
+      result: {},
     }
     this.onTakePhoto = this.onTakePhoto.bind(this);
   }
 
   componentDidMount() {
-  }
-
-  onTakePhoto(dataUri) {
-    console.log(dataUri.length);
-    axios.post(`${url.endPoint}detectPic`,dataUri).then((res) => {
-      console.log(res);
-    }).catch((err) => {
-      console.error(err)
+    this.setState({
+      showCamera: true,
     })
   }
 
-  sendImage(data) {
-    return this.axios.post(`${url}detectPic`,data);
+  onTakePhoto(dataUri) {
+    
+    console.log(btoa(dataUri))
+    this.setState({
+      showCamera: false,
+    })
+    const result = {};
+    axios.post(`${url.endPoint}detectPic`,{ image_data: dataUri }).then((res) => {
+      
+      result.passed = true;
+      result.message = '';
+
+    }).catch((err) => {
+      result.passed = false;
+      result.message = err.message;
+    }).finally(() => {
+      this.setState({
+        showCamera: true,
+        result,
+      })
+    })
+  }
+
+  clearResult() {
+    this.setState({
+      result: {}
+    })
   }
 
   static windowDimension() {
@@ -40,21 +60,49 @@ class ClCamera extends Component {
     }
   }
 
+  /**
+   * Because mobile has touch support
+   */
+  static isMobile() {
+    return 'ontouchstart' in document.documentElement;
+  }
+
   render() {
-    //console.log(windowDim.width);
-    const { width, height} = this.constructor.windowDimension();
+    //const { width, height} = this.constructor.windowDimension();
+
     return (
-      <div className="app-container">
-        <Camera
-          onTakePhoto = {(dataUri) => { 
-            this.onTakePhoto(dataUri); 
-          }}
-          idealFacingMode="environment"
-          idealResolution={{width, height}}
-          isImageMirror={false}
-          sizeFactor={0.5}
-          //imageCompression={0.8}
+      <div className="app-container"
+        onClick={() => {
+          alert('hey')
+        }}
+      >
+        <SweetAlert
+          show={this.state.result.passed}
+          title="Result"
+          text={this.state.result.message}
+          type="success"
+          onConfirm={() => this.setState({ result: '' })}
+
         />
+        <SweetAlert
+          show={this.state.result.message && !this.state.result.passed}
+          title="Error"
+          text={this.state.result.message}
+          type="error"
+          onConfirm={() => this.setState({ result: '' })}
+
+        />
+        { this.state.showCamera ? 
+          <Camera
+            onTakePhoto = {(dataUri) => { 
+              this.onTakePhoto(dataUri); 
+            }}
+            idealFacingMode="environment"
+            //idealResolution={{width, height}}
+            isImageMirror={!this.constructor.isMobile()}
+            sizeFactor={this.constructor.isMobile() ? 1 : 0.5}
+          /> : <p>Wait a minute you fuck</p>
+        }
       </div>
     )
   }
