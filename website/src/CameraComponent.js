@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
-import Camera from 'react-html5-camera-photo';
+
+//import Camera from 'react-html5-camera-photo';
+import Camera from "react-webcam";
+
 import axios from 'axios';
-import 'react-html5-camera-photo/build/css/index.css';
+//import 'react-html5-camera-photo/build/css/index.css';
 import './Camera.css';
 import url from './configs/url.json';
 import SweetAlert from 'sweetalert2-react';
-
+import icon from './btnIcon.png';
 
 class ClCamera extends Component {
   constructor() {
     super();
-    this.webcam = null;
+    this.setRef = webcam => {
+      this.webcam = webcam;
+    };
     this.state = {
       showCamera: false,
       result: {},
@@ -24,8 +29,13 @@ class ClCamera extends Component {
     })
   }
 
-  onTakePhoto(dataUri) {
+  takePic() {
     
+  }
+
+  onTakePhoto() {
+    const dataUri = this.webcam.getScreenshot();
+
     console.log(btoa(dataUri))
     this.setState({
       showCamera: false,
@@ -68,13 +78,13 @@ class ClCamera extends Component {
   }
 
   render() {
-    //const { width, height} = this.constructor.windowDimension();
+    const { width, height} = this.constructor.windowDimension();
 
     return (
       <div className="app-container"
-        onClick={() => {
-          alert('hey')
-        }}
+        onDoubleClick={() => 
+          this.onTakePhoto()
+        }
       >
         <SweetAlert
           show={this.state.result.passed}
@@ -93,16 +103,30 @@ class ClCamera extends Component {
 
         />
         { this.state.showCamera ? 
+          // <Camera
+          //   onTakePhoto = {(dataUri) => { 
+          //     this.onTakePhoto(dataUri); 
+          //   }}
+          //   idealFacingMode="environment"
+          //   //idealResolution={{width, height}}
+          //   isImageMirror={!this.constructor.isMobile()}
+          //   sizeFactor={this.constructor.isMobile() ? 1 : 0.5}
+          // /> 
           <Camera
-            onTakePhoto = {(dataUri) => { 
-              this.onTakePhoto(dataUri); 
+            audio={false}
+            // height={height}
+            // width={width}
+            ref={this.setRef}
+            screenshotFormat="image/jpeg"
+            videoConstraints={{
+              width: width,
+              height: height,
+              facingMode: "environment"
             }}
-            idealFacingMode="environment"
-            //idealResolution={{width, height}}
-            isImageMirror={!this.constructor.isMobile()}
-            sizeFactor={this.constructor.isMobile() ? 1 : 0.5}
-          /> : <p>Wait a minute you fuck</p>
+          />
+          : <p>Wait a minute you fuck</p>
         }
+        <img src={icon} id="img-button" onClick={() => this.onTakePhoto()}/>
       </div>
     )
   }
