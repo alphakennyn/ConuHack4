@@ -4,13 +4,16 @@ import axios from 'axios';
 import 'react-html5-camera-photo/build/css/index.css';
 import './Camera.css';
 import url from './configs/url.json';
+import SweetAlert from 'sweetalert2-react';
+
 
 class ClCamera extends Component {
   constructor() {
     super();
     this.webcam = null;
     this.state = {
-      showCamera: false
+      showCamera: false,
+      result: {},
     }
     this.onTakePhoto = this.onTakePhoto.bind(this);
   }
@@ -22,23 +25,32 @@ class ClCamera extends Component {
   }
 
   onTakePhoto(dataUri) {
-    console.log(dataUri.length);
+    
+    console.log(btoa(dataUri))
     this.setState({
       showCamera: false,
     })
+    const result = {};
     axios.post(`${url.endPoint}detectPic`,{ image_data: dataUri }).then((res) => {
-      console.log(res);
+      
+      result.passed = true;
+      result.message = '';
+
     }).catch((err) => {
-      console.error(err)
+      result.passed = false;
+      result.message = err.message;
     }).finally(() => {
       this.setState({
         showCamera: true,
+        result,
       })
     })
   }
 
-  sendImage(data) {
-    return this.axios.post(`${url}detectPic`,data);
+  clearResult() {
+    this.setState({
+      result: {}
+    })
   }
 
   static windowDimension() {
@@ -56,16 +68,30 @@ class ClCamera extends Component {
   }
 
   render() {
-    //console.log(windowDim.width);
-    console.log(this.constructor.isMobile());
-    const { width, height} = this.constructor.windowDimension();
-    console.log(width, height);
+    //const { width, height} = this.constructor.windowDimension();
+
     return (
       <div className="app-container"
-        onDragCapture={() => {
+        onClick={() => {
           alert('hey')
         }}
       >
+        <SweetAlert
+          show={this.state.result.passed}
+          title="Result"
+          text={this.state.result.message}
+          type="success"
+          onConfirm={() => this.setState({ result: '' })}
+
+        />
+        <SweetAlert
+          show={this.state.result.message && !this.state.result.passed}
+          title="Error"
+          text={this.state.result.message}
+          type="error"
+          onConfirm={() => this.setState({ result: '' })}
+
+        />
         { this.state.showCamera ? 
           <Camera
             onTakePhoto = {(dataUri) => { 
@@ -74,7 +100,7 @@ class ClCamera extends Component {
             idealFacingMode="environment"
             //idealResolution={{width, height}}
             isImageMirror={!this.constructor.isMobile()}
-            sizeFactor={0.7}
+            sizeFactor={this.constructor.isMobile() ? 1 : 0.5}
           /> : <p>Wait a minute you fuck</p>
         }
       </div>
