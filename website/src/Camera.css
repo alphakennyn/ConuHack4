@@ -12,8 +12,9 @@
 #container-circles {
   bottom: 20%;
 }
-
-#outer-circle {
-  background-color: #13d301;
-
-}
+#img-button {
+  position: absolute;
+  top: 40%;
+  left: 0;
+  transform: scale(0.1);
+} 
