@@ -20,9 +20,11 @@
 .env.production.local
 
 /website/yarn.lock
-/server/package-lock.lock
+/website/package-lock.json
+/server/package-lock.json
 
 /website/npm-debug.log*
 /server/npm-debug.log*
 /website/yarn-debug.log*
 /website/yarn-error.log*
+website/package-lock.json

@@ -1,0 +1,4 @@
+{
+  "endPoint": "http://localhost:5000/",
+  "prodEndPoint": "http://localhost:5000/"
+}
