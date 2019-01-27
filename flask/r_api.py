@@ -28,8 +28,11 @@ def get_image():
     }
     data_to_send = image_data['image_data']
     resp = get_prediction(data_to_send, project_id, model_id)
-    to_str = str(resp)
-    return jsonify(to_str), 201
+    resp_json = {
+        'display_name': resp.payload[0].display_name,
+        'score': resp.payload[0].classification.score
+    }
+    return jsonify(resp_json), 201
 
 
 def comp_vision(imgData):
