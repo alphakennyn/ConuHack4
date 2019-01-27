@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, send_from_directory, render_template, Blueprint
 from flask import abort
 from flask import request
 import os
@@ -12,7 +12,18 @@ from google.cloud.automl_v1beta1.proto import service_pb2
 
 
 
-app = Flask(__name__)
+app = Flask( __name__, static_url_path='/build/static/',template_folder='build/')
+
+# Serve React App
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve(path):
+    # return render_template('index.html')
+    if path != "" and os.path.exists("/build/" + path):
+        return send_from_directory('/build/', path)
+    else:
+        return send_from_directory('/build/', 'index.html')
+
 CORS(app)
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"]= r"./configs/credentials.json"
@@ -69,4 +80,5 @@ def get_prediction(imgData, project_id, model_id):
 
 
 if __name__ == '__main__':
-  app.run(debug=True)
+    app.run(use_reloader=True, port=5000, host='0.0.0.0', threaded=True)
+    
