@@ -36,8 +36,9 @@ class ClCamera extends Component {
       showCamera: false,
     })
 
+    const image_data = dataUri.replace("data:image/jpeg;base64,", "");
     const data = {
-      image_data: btoa(dataUri)
+      image_data,
     }
 
     const result = {};
