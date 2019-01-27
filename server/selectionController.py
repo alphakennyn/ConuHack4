@@ -1,5 +1,5 @@
-import flask
-from flask import jsonify
+#import flask
+#from flask import jsonify
 import json
 
 from pprint import pprint
@@ -40,4 +40,4 @@ def filter(example):
 
 response={"type":filter(example)}
 
-flask.jsonify(response)
+#flask.jsonify(response)
