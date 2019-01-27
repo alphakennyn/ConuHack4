@@ -8,10 +8,11 @@ from google.cloud import vision
 from google.cloud.vision import types
 import base64
 import json
-
+from flask_cors import CORS
 
 
 app = Flask(__name__)
+CORS(app)
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"]= r"C:\Users\Adamd\Downloads\ConUHacks2019-a5def77905c5.json"
 
@@ -40,6 +41,8 @@ def comp_vision(imgData):
     for label in labels:
         #print(label.description)
         response_labels.append(label.description)
+    temp = json.dumps(response_labels)
+    print(temp)
     return response_labels
 
 
