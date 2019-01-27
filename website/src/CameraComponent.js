@@ -103,19 +103,8 @@ class ClCamera extends Component {
 
         />
         { this.state.showCamera ? 
-          // <Camera
-          //   onTakePhoto = {(dataUri) => { 
-          //     this.onTakePhoto(dataUri); 
-          //   }}
-          //   idealFacingMode="environment"
-          //   //idealResolution={{width, height}}
-          //   isImageMirror={!this.constructor.isMobile()}
-          //   sizeFactor={this.constructor.isMobile() ? 1 : 0.5}
-          // /> 
           <Camera
             audio={false}
-            // height={height}
-            // width={width}
             ref={this.setRef}
             screenshotFormat="image/jpeg"
             videoConstraints={{
