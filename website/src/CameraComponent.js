@@ -46,10 +46,11 @@ class ClCamera extends Component {
       if (res.status ===  201) {
         //const data = res.data.replace("payload", "");;
         console.log(res.data)
+        const { display_name, score } = res.data;
         //const jsonData = JSON.parse(data);
         //console.log(jsonData);
         result.passed = true;
-        result.message = res.statusText;
+        result.message = display_name;
       }
 
     }).catch((err) => {
