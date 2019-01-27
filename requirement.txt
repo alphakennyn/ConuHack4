@@ -2,3 +2,4 @@ flask
 flask_cors
 google.cloud
 google.cloud.vision
+google-cloud-automl
