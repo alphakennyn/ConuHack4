@@ -16,7 +16,7 @@ app = Flask(__name__)
 CORS(app)
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"]= r"./configs/credentials.json"
-model_id = "ICN1211232925210694624"
+model_id = "ICN2724691891646221516"
 project_id = "conuhacks2019-229817"
 
 

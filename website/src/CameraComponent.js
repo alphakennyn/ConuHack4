@@ -132,7 +132,7 @@ class ClCamera extends Component {
 
         /> */}
         { this.state.showCamera ? 
-          <Camera
+          <div><Camera
             audio={false}
             ref={this.setRef}
             style={mirror}
@@ -142,10 +142,10 @@ class ClCamera extends Component {
               height: height,
               facingMode: "environment"
             }}
-          />
+          />        
+          <img src={icon} alt="button" id="img-button" onClick={() => this.onTakePhoto()}/></div>
           : <img id="img-loader" src={icon} alt="loader" />
         }
-        <img src={icon} alt="button" id="img-button" onClick={() => this.onTakePhoto()}/>
       </div>
     )
   }
