@@ -16,7 +16,7 @@ app = Flask(__name__)
 CORS(app)
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"]= r"./configs/credentials.json"
-model_id = "ICN6935639392097694250"
+model_id = "ICN2544261476964813443"
 project_id = "conuhacks2019-229817"
 
 
@@ -29,9 +29,12 @@ def get_image():
     }
     data_to_send = image_data['image_data']
     resp = get_prediction(data_to_send, project_id, model_id)
+    comp_resp = comp_vision(request.json['image_data'])
+    print(comp_resp)
     resp_json = {
         'display_name': resp.payload[0].display_name,
-        'score': resp.payload[0].classification.score
+        'score': resp.payload[0].classification.score,
+        'data_set': comp_resp
     }
     print(resp_json)
     return jsonify(resp_json), 201

@@ -44,17 +44,24 @@ class ClCamera extends Component {
     const result = {};
     axios.post(`${url.endPoint}send_nudes`,data).then((res) => {
       if (res.status ===  201) {
-        //const data = res.data.replace("payload", "");;
-        console.log(res.data)
-        const { display_name, score } = res.data;
-        //const jsonData = JSON.parse(data);
-        //console.log(jsonData);
+        const { display_name, score, data_set } = res.data;
         result.passed = true;
-        result.message = display_name;
+        result.title = display_name.toUpperCase();
+        result.type = 'success';
+        
+        const dataFound = process.env.NODE_ENV === 'development' ? data_set.reduce((acc, value) => {
+          acc += `</br><b>${value.description}</b> confident: ${value.score.toFixed(5)}`;
+          return acc;
+        }, '') : '';
+        
+        result.message = `<br/><br/><b>Confidence level: ${score.toFixed(5)}</b></br>${dataFound}`;
+      } else {
+        throw new Error(`Not 201 ${res.status}` );
       }
-
     }).catch((err) => {
       result.passed = false;
+      result.title = 'Error';
+      result.type = 'error';
       result.message = err.message;
     }).finally(() => {
       this.setState({
@@ -95,17 +102,17 @@ class ClCamera extends Component {
       >
         <SweetAlert
           show={this.state.result.passed}
-          title="Result"
-          text={this.state.result.message}
-          type="success"
+          title={this.state.result.title}
+          html={this.state.result.message}
+          type={this.state.result.type}
           onConfirm={() => this.setState({ result: '' })}
 
         />
         <SweetAlert
           show={this.state.result.message && !this.state.result.passed}
-          title="Error"
-          text={this.state.result.message}
-          type="error"
+          title={this.state.result.title}
+          html={this.state.result.message}
+          type={this.state.result.type}
           onConfirm={() => this.setState({ result: '' })}
 
         />
@@ -123,7 +130,7 @@ class ClCamera extends Component {
           />
           : <p>Wait a minute you fuck</p>
         }
-        <img src={icon} id="img-button" onClick={() => this.onTakePhoto()}/>
+        <img src={icon} alt="button" id="img-button" onClick={() => this.onTakePhoto()}/>
       </div>
     )
   }
