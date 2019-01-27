@@ -1,0 +1,20 @@
+
+
+.app-container {
+  /* height: 100vh;
+  width: 100vw; */
+}
+
+.react-html5-camera-photo>img, .react-html5-camera-photo>video {
+  width: 100%;
+}
+
+#container-circles {
+  bottom: 20%;
+}
+#img-button {
+  position: absolute;
+  top: 40%;
+  left: 0;
+  transform: scale(0.1);
+} 
