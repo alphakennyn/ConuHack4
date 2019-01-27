@@ -1,16 +1,17 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 .vscode
+.vscode/settings.json
 
 # dependencies
-/website/node_modules
-/server/node_modules
-/website/.pnp
-/website/.pnp.js
+node_modules
+.pnp
+.pnp.js
+
 # testing
 /website/coverage
 
 # production
-/website/build
+/build
 
 # misc
 .DS_Store
@@ -20,7 +21,7 @@
 .env.production.local
 
 /website/yarn.lock
-/website/package-lock.json
+
 /server/package-lock.json
 
 /website/npm-debug.log*

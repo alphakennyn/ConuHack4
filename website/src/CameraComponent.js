@@ -86,7 +86,7 @@ class ClCamera extends Component {
 
   render() {
     const { width, height} = this.constructor.windowDimension();
-
+    const mirror = this.constructor.isMobile() ? {} : { transform: 'scaleX(-1)' };
     return (
       <div className="app-container"
         onDoubleClick={() => 
@@ -113,6 +113,7 @@ class ClCamera extends Component {
           <Camera
             audio={false}
             ref={this.setRef}
+            style={mirror}
             screenshotFormat="image/jpeg"
             videoConstraints={{
               width: width,
