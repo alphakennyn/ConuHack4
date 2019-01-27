@@ -18,3 +18,17 @@
   left: 0;
   transform: scale(0.1);
 } 
+
+#img-loader {
+  transform: scale(0.4);
+  animation: spin infinite 10s linear;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
