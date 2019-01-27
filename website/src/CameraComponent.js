@@ -43,13 +43,14 @@ class ClCamera extends Component {
 
     const result = {};
     axios.post(`${url.endPoint}send_nudes`,data).then((res) => {
-      if(res.status === 201) {
-        console.table(res.data);
+      if (res.status ===  201) {
+        //const data = res.data.replace("payload", "");;
+        console.log(res.data)
+        const { display_name, score } = res.data;
+        //const jsonData = JSON.parse(data);
+        //console.log(jsonData);
         result.passed = true;
-        result.message = res.statusText;
-        
-      } else {
-        throw new Error(`Not 201... its actually ${res.status}`)
+        result.message = display_name;
       }
 
     }).catch((err) => {

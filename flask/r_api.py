@@ -7,12 +7,18 @@ from google.cloud.vision import types
 import base64
 import json
 from flask_cors import CORS
+from google.cloud import automl_v1beta1
+from google.cloud.automl_v1beta1.proto import service_pb2
+
 
 
 app = Flask(__name__)
 CORS(app)
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"]= r"C:\Users\Adamd\Downloads\ConUHacks2019-a5def77905c5.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"]= r"./credentials.json"
+model_id = "ICN1038420248079975736"
+project_id = "conuhacks2019-229817"
+
 
 
 @app.route('/send_nudes', methods=['POST'])
@@ -22,8 +28,13 @@ def get_image():
     image_data = {
     'image_data': request.json['image_data'],
     }
-    data = image_data['image_data']
-    return jsonify(comp_vision(data)), 201
+    data_to_send = image_data['image_data']
+    resp = get_prediction(data_to_send, project_id, model_id)
+    resp_json = {
+        'display_name': resp.payload[0].display_name,
+        'score': resp.payload[0].classification.score
+    }
+    return jsonify(resp_json), 201
 
 
 def comp_vision(imgData):
@@ -35,7 +46,6 @@ def comp_vision(imgData):
     labels = response.label_annotations
     print('Labels:')
     for label in labels:
-        #print(label.description)
         response_labels.append({
             'description': label.description,
             'score': label.score
@@ -44,6 +54,14 @@ def comp_vision(imgData):
     print(temp)
     return response_labels
 
+def get_prediction(imgData, project_id, model_id):
+    content = base64.b64decode(imgData)
+    prediction_client = automl_v1beta1.PredictionServiceClient()
+    name = 'projects/{}/locations/us-central1/models/{}'.format(project_id, model_id)
+    payload = {'image': {'image_bytes': content }}
+    params = {}
+    request = prediction_client.predict(name, payload, params)
+    return request  # waits till request is returned
 
 
 
