@@ -58,9 +58,9 @@
     "workbox-webpack-plugin": "3.6.3"
   },
   "scripts": {
-    "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "start": "node website/scripts/start.js",
+    "build": "node website/scripts/build.js",
+    "test": "node website/scripts/test.js"
   },
   "engines": {
     "node": "10.3.0"
