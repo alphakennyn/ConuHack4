@@ -15,10 +15,9 @@ from google.cloud.automl_v1beta1.proto import service_pb2
 app = Flask(__name__)
 CORS(app)
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"]= r"C:\Users\Adamd\Downloads\ConUHacks2019-a5def77905c5.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"]= r"./credentials.json"
 model_id = "ICN6935639392097694250"
 project_id = "conuhacks2019-229817"
-
 
 
 @app.route('/send_nudes', methods=['POST'])
