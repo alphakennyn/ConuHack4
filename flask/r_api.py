@@ -22,8 +22,9 @@ def get_image():
     image_data = {
     'image_data': request.json['image_data'],
     }
-    data = image_data['image_data']
-    return jsonify(comp_vision(data)), 201
+    data_to_send = image_data['image_data']
+    resp = comp_vision(data_to_send)
+    return jsonify(resp), 201
 
 
 def comp_vision(imgData):
@@ -35,7 +36,6 @@ def comp_vision(imgData):
     labels = response.label_annotations
     print('Labels:')
     for label in labels:
-        #print(label.description)
         response_labels.append({
             'description': label.description,
             'score': label.score
