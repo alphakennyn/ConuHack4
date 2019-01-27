@@ -14,8 +14,8 @@ with open('data/example.json') as words:
     example = json.load(words)
 
 def helper(str1, str2):
-    if (str2.len-(2*str1.len())<0) and str1.upper() in str2.lower():
-        return true
+    if ((str2.len-(2*str1.len())<0) and str1.upper() in str2.lower()):
+        return True
 
 
 def filter(example):
