@@ -43,9 +43,14 @@ class ClCamera extends Component {
 
     const result = {};
     axios.post(`${url.endPoint}send_nudes`,data).then((res) => {
-      
-      result.passed = true;
-      result.message = '';
+      if(res.status === 201) {
+        console.table(res.data);
+        result.passed = true;
+        result.message = res.statusText;
+        
+      } else {
+        throw new Error(`Not 201... its actually ${res.status}`)
+      }
 
     }).catch((err) => {
       result.passed = false;
@@ -80,7 +85,7 @@ class ClCamera extends Component {
 
   render() {
     const { width, height} = this.constructor.windowDimension();
-
+    const mirror = this.constructor.isMobile() ? {} : { transform: 'scaleX(-1)' };
     return (
       <div className="app-container"
         onDoubleClick={() => 
@@ -107,6 +112,7 @@ class ClCamera extends Component {
           <Camera
             audio={false}
             ref={this.setRef}
+            style={mirror}
             screenshotFormat="image/jpeg"
             videoConstraints={{
               width: width,
