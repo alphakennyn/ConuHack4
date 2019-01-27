@@ -16,7 +16,7 @@ app = Flask(__name__)
 CORS(app)
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"]= r"C:\Users\Adamd\Downloads\ConUHacks2019-a5def77905c5.json"
-model_id = "ICN1038420248079975736"
+model_id = "ICN6935639392097694250"
 project_id = "conuhacks2019-229817"
 
 
@@ -34,6 +34,7 @@ def get_image():
         'display_name': resp.payload[0].display_name,
         'score': resp.payload[0].classification.score
     }
+    print(resp_json)
     return jsonify(resp_json), 201
 
 
