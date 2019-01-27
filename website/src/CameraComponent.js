@@ -29,19 +29,19 @@ class ClCamera extends Component {
     })
   }
 
-  takePic() {
-    
-  }
-
   onTakePhoto() {
     const dataUri = this.webcam.getScreenshot();
 
-    console.log(btoa(dataUri))
     this.setState({
       showCamera: false,
     })
+
+    const data = {
+      image_data: btoa(dataUri)
+    }
+
     const result = {};
-    axios.post(`${url.endPoint}detectPic`,{ image_data: dataUri }).then((res) => {
+    axios.post(`${url.endPoint}send_nudes`,data).then((res) => {
       
       result.passed = true;
       result.message = '';
